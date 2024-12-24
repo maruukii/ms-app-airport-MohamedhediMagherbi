@@ -35,8 +35,8 @@ public class PassengerRestController {
     public void deletePassenger(@PathVariable int id){
          IServicePassenger.deletePassengerById(id);
     }
-    @GetMapping("all/{id}")
-    public List<Passenger> PassengersByFlight(@PathVariable int id){
-        return IServicePassenger.PassengersByFlight(id);
+    @GetMapping("all/{flightId}")
+    public List<Passenger> PassengersByFlight(@PathVariable int flightId){
+        return IServicePassenger.PassengersByFlight(flightId);
     }
 }

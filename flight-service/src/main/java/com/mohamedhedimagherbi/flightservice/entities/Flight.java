@@ -36,4 +36,6 @@ public class Flight {
     private int planeId;
     @ElementCollection
     private List<Integer> pilotIds;
+    @ElementCollection
+    private List<Integer> destinationIds;
 }
