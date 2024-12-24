@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 
 @Getter
@@ -33,4 +34,6 @@ public class Flight {
     @Transient
     private Plane plane;
     private int planeId;
+    @ElementCollection
+    private List<Integer> pilotIds;
 }

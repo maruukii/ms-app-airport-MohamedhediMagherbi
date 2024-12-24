@@ -1,5 +1,6 @@
 package com.mohamedhedimagherbi.flightservice.services;
 
+import com.mohamedhedimagherbi.flightservice.clients.PlaneRestClient;
 import com.mohamedhedimagherbi.flightservice.entities.Flight;
 import com.mohamedhedimagherbi.flightservice.repository.FlightRepository;
 import lombok.AllArgsConstructor;
@@ -13,6 +14,7 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ServiceFlight implements IServiceFlight {
     private FlightRepository flightRepository;
+    private PlaneRestClient planeRestClient;
     public Optional<Flight> getById(int id){
         return flightRepository.findById(id);
     }
@@ -22,7 +24,13 @@ public class ServiceFlight implements IServiceFlight {
        return flightRepository.save(flight);
     }
     public List<Flight> getAllFlights(){
-        return flightRepository.findAll();
+
+        List<Flight> flights = flightRepository.findAll();
+        for (Flight flight:flights
+             ) {
+            flight.setPlane(planeRestClient.getPlaneById(flight.getPlaneId()));
+        }
+        return flights;
     }
 
     @Override
