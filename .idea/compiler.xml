@@ -18,8 +18,8 @@
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
         <module name="passenger-service" />
-        <module name="flight-service" />
         <module name="pilot-service" />
+        <module name="flight-service" />
         <module name="destination-service" />
         <module name="plane-service" />
       </profile>
