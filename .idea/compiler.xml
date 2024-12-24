@@ -2,26 +2,27 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <annotationProcessing>
+      <profile default="true" name="Default" enabled="true" />
       <profile name="Maven default annotation processors profile" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="config-service" />
+        <module name="passenger-service" />
         <module name="discovery-service" />
         <module name="gateway-service" />
+        <module name="flight-service" />
+        <module name="plane-service" />
       </profile>
-      <profile name="Annotation profile for plane-service" enabled="true">
+      <profile name="Annotation profile for flight-service" enabled="true">
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <processorPath useClasspath="false">
           <entry name="$MAVEN_REPOSITORY$/org/projectlombok/lombok/unknown/lombok-unknown.jar" />
         </processorPath>
-        <module name="passenger-service" />
         <module name="pilot-service" />
-        <module name="flight-service" />
         <module name="destination-service" />
-        <module name="plane-service" />
       </profile>
     </annotationProcessing>
   </component>
