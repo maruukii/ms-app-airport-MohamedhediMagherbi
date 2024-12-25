@@ -14,5 +14,7 @@
     <file url="file://$PROJECT_DIR$/pilot-service/src/main/resources" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plane-service/src/main/java" charset="UTF-8" />
     <file url="file://$PROJECT_DIR$/plane-service/src/main/resources" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/security-service/src/main/java" charset="UTF-8" />
+    <file url="file://$PROJECT_DIR$/security-service/src/main/resources" charset="UTF-8" />
   </component>
 </project>

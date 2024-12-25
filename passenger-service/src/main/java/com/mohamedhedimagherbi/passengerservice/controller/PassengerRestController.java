@@ -18,8 +18,6 @@ public class PassengerRestController {
         return IServicePassenger.getById(id);
     }
     @PostMapping("add")
-    //@PreAuthorize("hasAuthority('ADMIN')")
-
     public Passenger add(@RequestBody Passenger passenger){
         return IServicePassenger.addPassenger(passenger);
     }

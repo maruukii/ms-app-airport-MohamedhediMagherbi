@@ -12,6 +12,7 @@
         <option value="$PROJECT_DIR$/plane-service/pom.xml" />
         <option value="$PROJECT_DIR$/pilot-service/pom.xml" />
         <option value="$PROJECT_DIR$/passenger-service/pom.xml" />
+        <option value="$PROJECT_DIR$/security-service/pom.xml" />
       </list>
     </option>
   </component>
