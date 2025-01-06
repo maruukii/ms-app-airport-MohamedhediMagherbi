@@ -32,7 +32,7 @@ public class PlaneRestController {
     public Plane updatePlane(@PathVariable int id,@RequestBody Plane updatedPlane){
         return IServicePlane.updatePlane(id,updatedPlane);
     }
-    @PostMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
     public void deletePlane(@PathVariable int id){
          IServicePlane.deletePlaneById(id);

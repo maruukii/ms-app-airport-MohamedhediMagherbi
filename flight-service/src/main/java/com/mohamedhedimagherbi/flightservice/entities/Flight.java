@@ -1,6 +1,7 @@
 package com.mohamedhedimagherbi.flightservice.entities;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.mohamedhedimagherbi.flightservice.model.Pilot;
 import com.mohamedhedimagherbi.flightservice.model.Plane;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
@@ -9,6 +10,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -34,8 +36,9 @@ public class Flight {
     @Transient
     private Plane plane;
     private int planeId;
-    @ElementCollection
-    private List<Integer> pilotIds;
-    @ElementCollection
-    private List<Integer> destinationIds;
+    @Transient
+    private List<String> pilots;
+    @Transient
+    private List<String> destinations;
+
 }

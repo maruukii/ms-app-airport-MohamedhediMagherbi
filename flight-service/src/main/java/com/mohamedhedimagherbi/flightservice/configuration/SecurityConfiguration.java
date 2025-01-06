@@ -24,7 +24,6 @@ import javax.crypto.spec.SecretKeySpec;
 public class SecurityConfiguration {
     @Value("${jwt-secret}")
     private String secretKey;
-
     @Bean
     public JwtDecoder jwtDecoder(){
         SecretKeySpec secretKeySpec = new SecretKeySpec (secretKey.getBytes(), "RSA");

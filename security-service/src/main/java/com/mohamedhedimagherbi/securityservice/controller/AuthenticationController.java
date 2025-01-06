@@ -4,6 +4,11 @@ import com.mohamedhedimagherbi.securityservice.entities.AppRole;
 import com.mohamedhedimagherbi.securityservice.entities.AppUser;
 import com.mohamedhedimagherbi.securityservice.service.IServiceAuthentication;
 import lombok.AllArgsConstructor;
+import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.Configuration;
+import org.springframework.security.config.annotation.method.configuration.EnableMethodSecurity;
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.web.bind.annotation.*;
 
 

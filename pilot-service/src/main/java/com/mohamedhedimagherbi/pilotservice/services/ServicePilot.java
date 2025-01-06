@@ -29,6 +29,7 @@ public class ServicePilot implements IServicePilot {
         Optional<Pilot> existingPilot= pilotRepository.findById(id);
         if (existingPilot.isPresent())
             pilotRepository.deleteById(id);
+
         else
             throw new RuntimeException("Pilot not found with id: " + id);
     }

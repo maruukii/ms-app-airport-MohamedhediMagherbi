@@ -39,38 +39,44 @@ public class ServiceFlightPilot implements IServiceFlightPilot {
     @Override
     public FlightPilot assignPilotToFlight(int flightId,int pilotId,String role) {
         Optional<Flight> existingFlight = flightRepository.findById(flightId);
-        if (existingFlight.isPresent()){
-            FlightPilot flightPilot = new FlightPilot();
-            Pilot pilot = pilotRestClient.getPilotById(pilotId);
-                if (pilot != null) {
-                    flightPilot.setFlightId(flightId);
-                    flightPilot.setPilotId(pilotId);
-                    flightPilot.setCockpit_role(role);
-                    Flight flight=existingFlight.get();
-                    List<Integer> pilots=flight.getPilotIds();
-                    pilots.add(pilotId);
-                    flight.setPilotIds(pilots);
-                    flightRepository.save(flight);
-                    return flightPilotRepository.save(flightPilot);
+        if (existingFlight.isPresent()) {
+            List<FlightPilot> pilotsflights =flightPilotRepository.findAllByFlightIdAndAndPilotId(flightId,pilotId);
+                if (pilotsflights.size() <= 3) {
+                    for (FlightPilot checkpilot:pilotsflights
+                    ) {
+                        if(checkpilot.getPilotId()==pilotId) throw new RuntimeException("Pilot already exists in this flight");
+                    }
+                    Pilot pilot = pilotRestClient.getPilotById(pilotId);
+                    FlightPilot flightPilot = new FlightPilot();
+                    if (pilot != null) {
+                        flightPilot.setFlightId(flightId);
+                        flightPilot.setPilotId(pilotId);
+                        flightPilot.setCockpit_role(role);
+                        return flightPilotRepository.save(flightPilot);
+                    }
+                    throw new RuntimeException("Pilot doesn't exist");
                 }
-            }
-        return  null;
+                throw new RuntimeException("Already set 4 pilots for the flight: " + flightId);
+
+        }
+        throw new RuntimeException("no flight found with Flight id: " + flightId);
     }
 
     @Override
     public List<Pilot> getAllFlightPilots(int flightId) {
         Optional<Flight> existingFlight = flightRepository.findById(flightId);
         if (existingFlight.isPresent()){
-            List<Integer> pilotIds=existingFlight.get().getPilotIds();
+            List<FlightPilot> flightPilot= flightPilotRepository.findAllByFlightId(flightId);
             List <Pilot> pilots=new ArrayList<>();;
-            for (Integer pilotId:pilotIds) {
-            Pilot pilot = pilotRestClient.getPilotById(pilotId);
+            for (FlightPilot flightpilot:flightPilot) {
+
+            Pilot pilot = pilotRestClient.getPilotById(flightpilot.getPilotId());
             if (pilot != null) {
             pilots.add(pilot);}
             }
             return pilots;
         }
-        throw new RuntimeException("no pilots not found with Flight id: " + flightId);
+        throw new RuntimeException("no pilots found for Flight id: " + flightId);
     }
 
 

@@ -1,12 +1,21 @@
 package com.mohamedhedimagherbi.flightservice.services;
 
+import com.mohamedhedimagherbi.flightservice.clients.DestinationRestClient;
+import com.mohamedhedimagherbi.flightservice.clients.PilotRestClient;
 import com.mohamedhedimagherbi.flightservice.clients.PlaneRestClient;
 import com.mohamedhedimagherbi.flightservice.entities.Flight;
+import com.mohamedhedimagherbi.flightservice.entities.FlightLeg;
+import com.mohamedhedimagherbi.flightservice.entities.FlightPilot;
+import com.mohamedhedimagherbi.flightservice.model.Pilot;
+import com.mohamedhedimagherbi.flightservice.model.Plane;
+import com.mohamedhedimagherbi.flightservice.repository.FlightLegRepository;
+import com.mohamedhedimagherbi.flightservice.repository.FlightPilotRepository;
 import com.mohamedhedimagherbi.flightservice.repository.FlightRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -15,10 +24,16 @@ import java.util.Optional;
 public class ServiceFlight implements IServiceFlight {
     private FlightRepository flightRepository;
     private PlaneRestClient planeRestClient;
+    private PilotRestClient pilotRestClient;
+    private DestinationRestClient destinationRestClient;
+    private FlightPilotRepository flightPilotRepository;
+    private FlightLegRepository flightLegRepository;
     public Optional<Flight> getById(int id){
         return flightRepository.findById(id);
     }
     public Flight addFlight(Flight flight){
+        Plane plane = planeRestClient.getPlaneById(flight.getPlaneId());
+        if (plane==null) throw new RuntimeException("No plane found with id: "+flight.getPlaneId());
         flight.setCreated_At(LocalDateTime.now());
         flight.setModified_At(LocalDateTime.now());
        return flightRepository.save(flight);
@@ -26,10 +41,28 @@ public class ServiceFlight implements IServiceFlight {
     public List<Flight> getAllFlights(){
 
         List<Flight> flights = flightRepository.findAll();
+        List<String> pilots;
+        List<String> destinations;
         for (Flight flight:flights
              ) {
             flight.setPlane(planeRestClient.getPlaneById(flight.getPlaneId()));
+            pilots=new ArrayList<>();
+            List<FlightPilot> flightPilot=flightPilotRepository.findAllByFlightId(flight.getId());
+            for (FlightPilot flightpilot: flightPilot
+                 ) {
+
+                pilots.add(pilotRestClient.getPilotById(flightpilot.getPilotId()).getFirst_name()+" "+pilotRestClient.getPilotById(flightpilot.getPilotId()).getLast_name());
+            }
+            flight.setPilots(pilots);
+            destinations=new ArrayList<>();
+            List<FlightLeg> flightLeg=flightLegRepository.findAllByFlightId(flight.getId());
+            for (FlightLeg flightleg:flightLeg
+                 ) {
+                destinations.add(destinationRestClient.getDestinationById(flightleg.getDestinationId()).getAirport_name()+" - "+destinationRestClient.getDestinationById(flightleg.getDestinationId()).getCity_name());
+            }
+            flight.setDestinations(destinations);
         }
+
         return flights;
     }
 

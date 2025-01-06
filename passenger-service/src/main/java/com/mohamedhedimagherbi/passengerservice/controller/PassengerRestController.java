@@ -3,6 +3,8 @@ package com.mohamedhedimagherbi.passengerservice.controller;
 import com.mohamedhedimagherbi.passengerservice.entities.Passenger;
 import com.mohamedhedimagherbi.passengerservice.services.IServicePassenger;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -29,9 +31,11 @@ public class PassengerRestController {
     public Passenger updatePassenger(@PathVariable int id,@RequestBody Passenger updatedPassenger){
         return IServicePassenger.updatePassenger(id,updatedPassenger);
     }
-    @PostMapping("delete/{id}")
-    public void deletePassenger(@PathVariable int id){
+    @DeleteMapping("delete/{id}")
+    public ResponseEntity deletePassenger(@PathVariable int id){
          IServicePassenger.deletePassengerById(id);
+        return new ResponseEntity<>("Passenger deleted with id :"+id, HttpStatus.OK);
+
     }
     @GetMapping("all/{flightId}")
     public List<Passenger> PassengersByFlight(@PathVariable int flightId){

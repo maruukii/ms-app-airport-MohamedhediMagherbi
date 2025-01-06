@@ -1,4 +1,4 @@
-package com.app.rdvmedicalmaruukii.config;
+package com.mohamedhedimagherbi.pilotservice.configuration;
 
 import io.swagger.v3.oas.models.Components;
 import io.swagger.v3.oas.models.OpenAPI;

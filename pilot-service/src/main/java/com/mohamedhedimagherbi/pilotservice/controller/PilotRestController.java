@@ -3,6 +3,8 @@ package com.mohamedhedimagherbi.pilotservice.controller;
 import com.mohamedhedimagherbi.pilotservice.entities.Pilot;
 import com.mohamedhedimagherbi.pilotservice.services.IServicePilot;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
@@ -34,9 +36,10 @@ public class PilotRestController {
     public Pilot updatePilot(@PathVariable int id,@RequestBody Pilot updatedPilot){
         return IServicePilot.updatePilot(id,updatedPilot);
     }
-    @PostMapping("delete/{id}")
+    @DeleteMapping("delete/{id}")
     @PreAuthorize("hasAuthority('SCOPE_ROLE_ADMIN')")
-    public void deletePilot(@PathVariable int id){
+    public ResponseEntity deletePilot(@PathVariable int id){
          IServicePilot.deletePilotById(id);
+        return new ResponseEntity<>("Pilot deleted with id :"+id, HttpStatus.OK);
     }
 }

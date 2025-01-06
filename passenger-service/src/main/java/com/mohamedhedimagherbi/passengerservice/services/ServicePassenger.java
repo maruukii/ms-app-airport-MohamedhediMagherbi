@@ -1,6 +1,8 @@
 package com.mohamedhedimagherbi.passengerservice.services;
 
+import com.mohamedhedimagherbi.passengerservice.clients.FlightRestClient;
 import com.mohamedhedimagherbi.passengerservice.entities.Passenger;
+import com.mohamedhedimagherbi.passengerservice.model.Flight;
 import com.mohamedhedimagherbi.passengerservice.repository.PassengerRepository;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -14,16 +16,25 @@ import java.util.Optional;
 @AllArgsConstructor
 public class ServicePassenger implements IServicePassenger {
     private PassengerRepository passengerRepository;
+    private FlightRestClient flightRestClient;
     public Optional<Passenger> getById(int id){
         return passengerRepository.findById(id);
     }
     public Passenger addPassenger(Passenger passenger){
+         Flight flight = flightRestClient.getFlightById(passenger.getFlightId());
+        if (flight==null) throw new RuntimeException("No flight found with id: "+passenger.getFlightId());
+        passenger.setFlight(flight);
         passenger.setCreated_At(LocalDateTime.now());
         passenger.setModified_At(LocalDateTime.now());
        return passengerRepository.save(passenger);
     }
     public List<Passenger> getAllPassengers(){
-        return passengerRepository.findAll();
+        List <Passenger> passengers=passengerRepository.findAll();
+        for (Passenger passenger: passengers
+             ) {
+            passenger.setFlight(flightRestClient.getFlightById(passenger.getFlightId()));
+        }
+        return passengers;
     }
 
     @Override
@@ -64,7 +75,7 @@ public class ServicePassenger implements IServicePassenger {
         }
     }
 
-    @Override
+
     public List<Passenger> PassengersByFlight(int id) {
         return passengerRepository.findAllByFlightId(id);
     }

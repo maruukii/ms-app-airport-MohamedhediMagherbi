@@ -35,7 +35,7 @@ public class SecurityConfiguration {
         return httpSecurity
             .sessionManagement (sm->sm.sessionCreationPolicy (SessionCreationPolicy.STATELESS))
             .csrf(csrf->csrf.disable())
-            .authorizeHttpRequests (auth->auth.requestMatchers("/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**","/api/passenger/{id}").permitAll()
+            .authorizeHttpRequests (auth->auth.requestMatchers("/swagger-ui/**","/swagger-ui.html","/v3/api-docs/**","/api/passenger/{id}","/api/passenger/all").permitAll()
                     .anyRequest().authenticated())
                 .oauth2ResourceServer(oauth2 -> oauth2.jwt(Customizer.withDefaults()))
                 .build();
